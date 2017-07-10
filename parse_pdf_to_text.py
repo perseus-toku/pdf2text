@@ -1,3 +1,5 @@
+
+
 """
 The pdf2text function used here is from PDFMiner:  https://pypi.python.org/pypi/pdfminer.six/20170419
 which is the current best implementation of dealing with page extractions 
@@ -57,15 +59,19 @@ if not os.path.exists(Config.txt_dir):
 
 have = set(os.listdir(Config.txt_dir))
 files = os.listdir(Config.pdf_dir)
+print(files)
+
+
 
 for i,f in enumerate(files): # there was a ,start=1 here that I removed, can't remember why it would be there. shouldn't be, i think.
   if not f.endswith(".pdf"):  #check if the current file is a pdf file 
     continue 
-
-  txt_basename = f + '.txt'
+  txt_basename = f.replace(".pdf","") + '.txt' # remove .pdf from the name
+  
   if txt_basename in have:
     print('%d/%d skipping %s, already exists.' % (i, len(files), txt_basename, ))
     continue
+
   pdf_path = os.path.join(Config.pdf_dir, f)
   txt_path = os.path.join(Config.txt_dir, txt_basename)
   # convert a PDF file to txt 
@@ -85,6 +91,9 @@ for i,f in enumerate(files): # there was a ,start=1 here that I removed, can't r
   #  os.system('touch ' + txt_path) # create empty file, but it's a record of having tried to convert
 
   time.sleep(0.01) # silly way for allowing for ctrl+c termination
+
+
+
 
 
 
